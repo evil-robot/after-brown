@@ -355,7 +355,7 @@ export const gradeGrainVignetteShader = {
       color.rgb += (canvas - 0.5) * uCanvasIntensity * 0.04;
       color.rgb += impasto * uCanvasIntensity * 0.02;
 
-      // === BACON COLOR GRADE ===
+      // === COLOR GRADE ===
       color.r = pow(color.r, 0.92);
       color.g = pow(color.g, 1.08);
       color.b = pow(color.b, 1.2);

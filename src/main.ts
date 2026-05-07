@@ -16,7 +16,7 @@ import { setupVRMDropZone, VRMState } from './vrm-loader';
 import './style.css';
 
 // ============================================================
-// STUDY AFTER A HUMAN HEAD
+// after-brown
 // Data portrait after Glenn Brown
 // ============================================================
 
@@ -25,12 +25,14 @@ const promptEl = document.getElementById('prompt')!;
 const titleEl = document.getElementById('title')!;
 const modeEl = document.getElementById('mode-indicator')!;
 const controlsEl = document.getElementById('controls')!;
+const saveBtn = document.getElementById('save-btn')!;
 
 // === RENDERER ===
 const renderer = new WebGLRenderer({
   antialias: true,
   alpha: true,
   powerPreference: 'high-performance',
+  preserveDrawingBuffer: true, // required for canvas export
 });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -72,9 +74,17 @@ setupVRMDropZone(document.body, scene, figure.group, (state) => {
   vrmState = state;
 });
 
+// === TEXTURE LOADER ===
+const textureLoader = new TextureLoader();
+
+// === DEFAULT PORTRAIT: load Rembrandt on arrival ===
+textureLoader.load('/default-portrait.jpg', (texture) => {
+  texture.colorSpace = SRGBColorSpace;
+  figure.setTexture(texture);
+});
+
 // === IMAGE DROP: map a photo onto the surface ===
 const dropZone = document.getElementById('drop-zone')!;
-const textureLoader = new TextureLoader();
 
 document.body.addEventListener('dragover', (e) => {
   e.preventDefault();
@@ -90,7 +100,6 @@ document.body.addEventListener('drop', (e) => {
   const file = e.dataTransfer?.files[0];
   if (!file) return;
 
-  // Handle image files (jpg, png, webp)
   if (file.type.startsWith('image/')) {
     const url = URL.createObjectURL(file);
     textureLoader.load(url, (texture) => {
@@ -98,13 +107,26 @@ document.body.addEventListener('drop', (e) => {
       figure.setTexture(texture);
       URL.revokeObjectURL(url);
 
-      modeEl.textContent = 'painting mapped';
+      modeEl.textContent = 'portrait mapped';
       modeEl.classList.add('visible');
       setTimeout(() => modeEl.classList.remove('visible'), 2000);
     });
     return;
   }
-  // VRM files handled by setupVRMDropZone
+});
+
+// === SAVE PORTRAIT ===
+saveBtn.addEventListener('click', () => {
+  post.render();
+  const dataURL = renderer.domElement.toDataURL('image/png');
+  const link = document.createElement('a');
+  link.download = `after-brown-${Date.now()}.png`;
+  link.href = dataURL;
+  link.click();
+
+  modeEl.textContent = 'saved';
+  modeEl.classList.add('visible');
+  setTimeout(() => modeEl.classList.remove('visible'), 1500);
 });
 
 // === STATE ===
@@ -113,10 +135,14 @@ let mouseX = 0;
 let mouseY = 0;
 let awakened = false;
 
-// Simulated audio state (before mic is enabled)
 let simLevel = 0.05;
 let simSpike = 0;
 let simScream = 0;
+
+// === SHOW CONTROLS after a short delay — don't require click ===
+setTimeout(() => {
+  controlsEl.classList.add('soft-visible');
+}, 2500);
 
 // === MOUSE TRACKING ===
 document.addEventListener('mousemove', (e) => {
@@ -124,11 +150,13 @@ document.addEventListener('mousemove', (e) => {
   mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
 });
 
-// === CLICK TO AWAKEN ===
-document.addEventListener('click', async () => {
+// === CLICK TO AWAKEN (mic) ===
+document.addEventListener('click', async (e) => {
   if (awakened) return;
+  if ((e.target as HTMLElement).id === 'save-btn') return;
   awakened = true;
   promptEl.classList.add('hidden');
+  controlsEl.classList.remove('soft-visible');
   controlsEl.classList.add('visible');
   await audio.init();
   if (audio.active) {
@@ -145,7 +173,6 @@ document.addEventListener('keydown', (e) => {
       triptychMode = !triptychMode;
       post.setTriptychMode(triptychMode);
       if (!triptychMode) {
-        // Force exact same state as page load
         camera.position.set(0, 0.3, 4.2);
         camera.lookAt(0, 0.15, 0);
         camera.fov = 35;
@@ -155,22 +182,23 @@ document.addEventListener('keydown', (e) => {
         renderer.setScissor(0, 0, window.innerWidth, window.innerHeight);
         renderer.setScissorTest(false);
       }
-      titleEl.textContent = triptychMode
-        ? 'THREE STUDIES OF A HUMAN HEAD'
-        : 'STUDY AFTER A HUMAN HEAD';
+      titleEl.textContent = triptychMode ? 'THREE STUDIES AFTER BROWN' : 'AFTER BROWN';
       modeEl.textContent = triptychMode ? 'triptych' : 'single study';
       modeEl.classList.add('visible');
       setTimeout(() => modeEl.classList.remove('visible'), 1500);
       break;
 
     case 's':
-      // Force scream (for testing without mic)
       simScream = 1.0;
       break;
 
     case 'r':
-      // Reset — clear texture and VRM
       figure.setTexture(null);
+      // Reload default portrait
+      textureLoader.load('/default-portrait.jpg', (texture) => {
+        texture.colorSpace = SRGBColorSpace;
+        figure.setTexture(texture);
+      });
       if (vrmState) {
         vrmState.dispose();
         vrmState = null;
@@ -180,9 +208,7 @@ document.addEventListener('keydown', (e) => {
 });
 
 document.addEventListener('keyup', (e) => {
-  if (e.key.toLowerCase() === 's') {
-    simScream = 0;
-  }
+  if (e.key.toLowerCase() === 's') simScream = 0;
 });
 
 // === RESIZE ===
@@ -203,7 +229,6 @@ function animate() {
 
   const time = clock.getElapsedTime();
 
-  // === AUDIO ===
   audio.update();
   let audioLevel: number;
   let screamIntensity: number;
@@ -212,24 +237,17 @@ function animate() {
     audioLevel = audio.level;
     screamIntensity = audio.screamIntensity;
   } else {
-    // Simulated breathing + occasional stirs
     simLevel = Math.sin(time * 0.8) * 0.04 + 0.06;
-    if (Math.random() < 0.0005) {
-      simSpike = 0.15 + Math.random() * 0.15;
-    }
+    if (Math.random() < 0.0005) simSpike = 0.15 + Math.random() * 0.15;
     simSpike *= 0.96;
     audioLevel = Math.max(0, simLevel + simSpike);
-
-    // Manual scream override (S key)
     screamIntensity = simScream;
   }
 
-  // === UPDATE ===
   figure.update(time, audioLevel, mouseX, mouseY, screamIntensity);
   cage.update(time, audioLevel);
   post.update(time, audioLevel);
 
-  // Update VRM materials if loaded
   if (vrmState?.materials) {
     for (const mat of vrmState.materials) {
       mat.uniforms.uTime.value = time;
@@ -239,12 +257,9 @@ function animate() {
     }
   }
 
-  // === RENDER ===
   post.render();
 }
 
-// Start with single study title
-titleEl.textContent = 'STUDY AFTER A HUMAN HEAD';
+titleEl.textContent = 'AFTER BROWN';
 post.setTriptychMode(false);
-
 animate();

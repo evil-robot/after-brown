@@ -115,7 +115,7 @@ export function setupVRMDropZone(
           portraitMesh.matrixAutoUpdate = false;
           portraitMesh.matrix.copy(child.matrixWorld);
 
-          vrmGroup.add(baconMesh);
+          vrmGroup.add(portraitMesh);
           vrmMaterials.push(fleshMat);
         }
       });

@@ -20,7 +20,7 @@ export interface CageState {
 export function createCage(): CageState {
   const group = new Group();
 
-  // === BACON'S PARALLELPIPED CAGE ===
+  // === PARALLELPIPED CAGE ===
   // Slightly trapezoidal — forced perspective creating unease
   const w = 2.0;
   const h = 2.8;
