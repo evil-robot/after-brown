@@ -10,11 +10,11 @@ Your face is made of data. This lets it behave like data.
 
 ## Glenn Brown
 
-Glenn Brown is one of the most technically extraordinary painters alive. He takes existing works — Rembrandt, Dali, Auerbach, Fragonard — and transforms them into something that looks like it was painted in a frenzy of gesture and impasto, except the surface is completely smooth. Not a single raised brushstroke. The chaos is an illusion. The control underneath it is total.
+Glenn Brown is one of the most technically extraordinary painters alive. He takes existing works: Rembrandt, Dali, Auerbach, Fragonard. He transforms them into something that looks like it was painted in a frenzy of gesture and impasto, except the surface is completely smooth. Not a single raised brushstroke. The chaos is an illusion. The control underneath it is total.
 
 What gets me about Brown is the gap between what you see and what is actually there. A painting that looks like it was made in grief or ecstasy, painted with a patience and precision that is almost inhuman. The distortion is always faithful to something. The source is always visible underneath the transformation.
 
-That tension — between structure and dissolution, between control and apparent chaos — is what this project is about.
+That tension between structure and dissolution, between control and apparent chaos, is what this project is about.
 
 ---
 
@@ -23,10 +23,10 @@ That tension — between structure and dissolution, between control and apparent
 Drop a portrait photo. Your face dissolves into a particle system that preserves your structure while drifting, flowing, and behaving according to its own rules. The geometry of you is still there. It just isn't solid anymore.
 
 Controls:
-- **T** — triptych mode
-- **S** — scream
-- **R** — reset
-- **drop image** — map your own photo onto the surface
+- **T**: triptych mode
+- **S**: scream
+- **R**: reset
+- **drop image**: map your own photo onto the surface
 
 Nothing leaves the browser.
 
@@ -96,7 +96,7 @@ In triptych mode, each panel is treated as a separate study with its own tempora
 
 I've been thinking about Glenn Brown's work for a long time. The idea that the most faithful reproduction of something might also be the most transformed version of it. That data and paint have more in common than they appear to. That a face is already a kind of data, and data already has a kind of face.
 
-Brown takes a source — a Rembrandt, a Dali — and makes it behave differently while remaining recognizable. That is exactly what this does with a photograph. The face is still yours. It just isn't pretending to be solid anymore.
+Brown takes a source, a Rembrandt or a Dali, and makes it behave differently while remaining recognizable. That is exactly what this does with a photograph. The face is still yours. It just isn't pretending to be solid anymore.
 
 ---
 
