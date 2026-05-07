@@ -20,7 +20,7 @@ That tension between structure and dissolution, between control and apparent cha
 
 ## What it does
 
-Drop a portrait photo. Your face dissolves into a particle system that preserves your structure while drifting, flowing, and behaving according to its own rules. The geometry of you is still there. It just isn't solid anymore.
+Drop a portrait photo. Your face dissolves into a continuous animated particle system. It does not stop moving. The geometry of you is preserved but the surface behaves like liquid, drifting and reforming in real time. The animation is painterly in the way it moves: not mechanical or physics-based, but driven by layered simplex noise that gives it the quality of a hand moving through wet paint. The figure breathes. It smears. It drips. It does not resolve.
 
 Controls:
 - **T**: triptych mode
