@@ -4,6 +4,8 @@
 
 Your face is made of data. This lets it behave like data.
 
+![after-brown](docs/preview.png)
+
 ---
 
 ## Glenn Brown
