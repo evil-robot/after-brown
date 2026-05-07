@@ -17,7 +17,7 @@ import './style.css';
 
 // ============================================================
 // STUDY AFTER A HUMAN HEAD
-// A Francis Bacon-inspired avatar experiment
+// Data portrait after Glenn Brown
 // ============================================================
 
 const container = document.getElementById('canvas-container')!;
@@ -72,7 +72,7 @@ setupVRMDropZone(document.body, scene, figure.group, (state) => {
   vrmState = state;
 });
 
-// === IMAGE DROP (map a Bacon painting onto the figure) ===
+// === IMAGE DROP: map a photo onto the surface ===
 const dropZone = document.getElementById('drop-zone')!;
 const textureLoader = new TextureLoader();
 

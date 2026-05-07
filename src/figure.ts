@@ -20,7 +20,7 @@ export interface StudyVariation {
   dripMultiplier: number;
 }
 
-// Three studies — left, center, right — like Bacon's triptychs
+// Three studies: left, center, right. Triptych format after Glenn Brown.
 export const STUDY_VARIATIONS: StudyVariation[] = [
   {
     // Left study: more smeared, past-tense, dragged

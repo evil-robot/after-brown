@@ -1,6 +1,6 @@
 // ============================================================
-// GLSL Shader Code — Francis Bacon Avatar Experiment
-// Study After a Human Head — Full Treatment
+// GLSL Shader Code: after-brown
+// Data Portrait after Glenn Brown
 // ============================================================
 
 // Ashima's webgl-noise: 3D Simplex Noise
@@ -92,7 +92,7 @@ void main() {
   pos += smearDir * smearAmount;
 
   // === HIGH-FREQUENCY CHURNING ===
-  // The boiling, writhing quality of Bacon's flesh
+  // The boiling, writhing quality of the surface
   float churn1 = snoise(pos * uNoiseScale + uTime * 0.12 + uNoiseOffset);
   float churn2 = snoise(pos * uNoiseScale * 2.1 + uTime * 0.08 - uNoiseOffset * 0.5);
   float churnDisplacement = (churn1 * 0.7 + churn2 * 0.3) * (0.12 + uAudioLevel * 0.35);
@@ -181,7 +181,7 @@ void main() {
   vec3 normal = normalize(vNormal);
   vec3 viewDir = normalize(vViewPosition);
 
-  // === LIGHTING — Dual key lights like a Bacon studio ===
+  // === LIGHTING: dual key lights, painterly ===
   vec3 light1 = normalize(vec3(0.4, 0.8, 0.6));
   vec3 light2 = normalize(vec3(-0.6, 0.3, -0.4));
 
@@ -202,7 +202,7 @@ void main() {
   // === MEAT / DISPLACEMENT COLOR ===
   float meatFactor = clamp(abs(vDisplacement) * 4.0, 0.0, 1.0);
 
-  // === TEXTURE MAPPING (Bacon painting projected onto flesh) ===
+  // === TEXTURE MAPPING: painting projected onto surface ===
   if (uUseTexture > 0.5) {
     vec4 texColor = texture2D(uTexture, vUv);
     // Lighting modulates the painting — gives it 3D depth
@@ -365,7 +365,7 @@ export const gradeGrainVignetteShader = {
       vec3 warmShift = vec3(1.12, 0.94, 0.82);
       color.rgb = mix(color.rgb, color.rgb * warmShift, 0.4);
 
-      // Crush blacks (Bacon's deep darks)
+      // Crush blacks (deep darks)
       color.rgb = max(color.rgb - 0.02, 0.0);
 
       // Desaturate highlights slightly

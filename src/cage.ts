@@ -74,7 +74,7 @@ export function createCage(): CageState {
   group.add(cageLines);
 
   // === DIAGONAL TENSION LINES ===
-  // Bacon often added diagonal lines cutting through the cage
+  // Diagonal lines cutting through the cage structure
   const diagonalPositions: number[] = [];
   // Cross on back face
   diagonalPositions.push(...corners[0], ...corners[5]);
@@ -101,7 +101,7 @@ export function createCage(): CageState {
   const diagLines = new LineSegments(diagGeo, diagMat);
   group.add(diagLines);
 
-  // === GROUND ELLIPSE (Bacon's circular platform/arena) ===
+  // === GROUND ELLIPSE: circular platform ===
   const ellipse = new EllipseCurve(0, 0, 1.3, 0.7, 0, Math.PI * 2, false, 0);
   const ellipsePoints = ellipse.getPoints(80);
   const ellipsePositions = new Float32Array(ellipsePoints.length * 3);

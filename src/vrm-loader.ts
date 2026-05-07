@@ -11,7 +11,7 @@ import { fleshVertex, fleshFragment } from './shaders';
 
 // ============================================================
 // VRM DRAG-AND-DROP LOADER
-// Loads a VRM file and replaces its materials with Bacon flesh shaders
+// Loads a VRM file and replaces its materials with Brown-treatment shaders
 // ============================================================
 
 export interface VRMState {
@@ -74,7 +74,7 @@ export function setupVRMDropZone(
       // Hide the sphere figure
       existingFigureGroup.visible = false;
 
-      // Create Bacon-ified version of the VRM
+      // Apply Brown treatment to the VRM
       const vrmGroup = new Group();
       const vrmMaterials: ShaderMaterial[] = [];
 
@@ -105,15 +105,15 @@ export function setupVRMDropZone(
           });
 
           // Clone the mesh with our material
-          const baconMesh = new Mesh(child.geometry, fleshMat);
-          baconMesh.position.copy(child.position);
-          baconMesh.rotation.copy(child.rotation);
-          baconMesh.scale.copy(child.scale);
+          const portraitMesh = new Mesh(child.geometry, fleshMat);
+          portraitMesh.position.copy(child.position);
+          portraitMesh.rotation.copy(child.rotation);
+          portraitMesh.scale.copy(child.scale);
 
           // Copy world transform from skeleton if available
           child.updateWorldMatrix(true, false);
-          baconMesh.matrixAutoUpdate = false;
-          baconMesh.matrix.copy(child.matrixWorld);
+          portraitMesh.matrixAutoUpdate = false;
+          portraitMesh.matrix.copy(child.matrixWorld);
 
           vrmGroup.add(baconMesh);
           vrmMaterials.push(fleshMat);
@@ -136,7 +136,7 @@ export function setupVRMDropZone(
       };
 
       onLoad(vrmState);
-      console.log('VRM loaded with Bacon treatment:', file.name);
+      console.log('VRM loaded with Brown treatment:', file.name);
     } catch (err) {
       console.error('Failed to load VRM:', err);
       console.log('Install @pixiv/three-vrm for VRM support: npm i @pixiv/three-vrm');
